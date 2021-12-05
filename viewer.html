@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="apple-touch-icon" sizes="57x57" href="assets/img/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="assets/img/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="assets/img/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="assets/img/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="assets/img/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="assets/img/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="assets/img/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="assets/img/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+<link rel="manifest" href="assets/img/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="assets/img/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles/css/style.css" />
+    <link rel="stylesheet" href="styles/css/main5152.css">
+    <title>MummyMania - NFT Viewer</title>
+</head>
+<body>
+    
+    <section>
+        <a href="index.html">
+            <img src="images/logo white.png" alt="Mummy logo" />
+        </a>
+      
+    </section>
+    <div class="container" style="padding-top: 20px;">
+        
+        <main role="main" class="pb-3" >
+          
+          <div class="tedclass">  
+              
+                <h3 style="color: white;">View NFT</h3>
+                <p style="color:white">by number (example to view Mummy #23, search for 23)</p>
+                <div class="input-group">
+                <input class="form-control width100" type="text" id="nft-input-2" placeholder="Input Mummy Number" required />
+                <span class="input-group-btn">
+                 <button class="btn-fill " id= "viewBtn">View</button>
+                </span>
+                </div>
+
+                
+            
+</div>
+
+<div id="loader"></div>
+
+    
+
+    <div class="tedclass " id="informationdiv" style="visibility: hidden;">
+        <main class="card-main">
+            <div class="card">
+                <span class="card__info1" id="mummyName">
+                    Mummy #            </span>
+                <img id="imgID" class="mummyIMG" src="" alt="">
+                <p style="color: white; padding-top: 10px;" id="desc"></p>
+                <p id="hathorExplorer" class="uid">
+                    
+                </p>
+            </div>
+    
+    
+            <div class="all-informations">
+               
+    
+                <div class="equipment-all">
+                <h2 style="color: white;">Attributes :</h2> 
+                <h4 id="rarityscore" style="color:yellow"></h4>
+                    
+                    <div class="equipment">
+                        <div class="equipment__info1">
+                            <span class="equipment__name">Background</span>
+                        </div>
+                        <div class="equipment__info2">
+                            <span id="bginfo" class="equipment__name2">test</span>
+                            <span id="bgpercentage" class="equipment__name2" style="color: purple;">test</span>
+                        </div>
+                    </div>
+                    <div class="equipment">
+                        <div class="equipment__info1">
+                            <span class="equipment__name">Skin</span>
+                        </div>
+                        <div class="equipment__info2">
+                            <span id="skininfo" class="equipment__name2">test</span>
+                            <span id="skinpercentage" class="equipment__name2" style="color: purple;">test</span>
+                        </div>
+                    </div>
+                    <div class="equipment">
+                        <div class="equipment__info1">
+                            <span class="equipment__name">Body & Chest</span>
+                        </div>
+                        <div class="equipment__info2">
+                            <span id="bodyinfo" class="equipment__name2">test</span>
+                            <span id="bodypercentage" class="equipment__name2" style="color: purple;">test</span>
+                        </div>
+                    </div>
+                    <div class="equipment">
+                        <div class="equipment__info1">
+                            <span class="equipment__name">Eyes</span>
+                        </div>
+                        <div class="equipment__info2">
+                            <span id="eyesinfo"class="equipment__name2">test</span>
+                            <span id="eyespercentage" class="equipment__name2" style="color: purple;">test</span>
+                        </div>
+                    </div>
+                    <div class="equipment">
+                        <div class="equipment__info1">
+                            <span class="equipment__name">Head</span>
+                        </div>
+                        <div class="equipment__info2">
+                            <span id="headinfo" class="equipment__name2">test</span>
+                            <span id="headpercentage" class="equipment__name2" style="color: purple;">test</span>
+                        </div>
+                    </div>
+                    <div class="equipment">
+                        <div class="equipment__info1">
+                            <span class="equipment__name">Mouth</span>
+                        </div>
+                        <div class="equipment__info2">
+                            <span id="mouthinfo" class="equipment__name2">test</span>
+                            <span id="mouthpercentage" class="equipment__name2" style="color: purple;">test</span>
+                        </div>
+                    </div>
+
+                    <div class="equipment">
+                        <div class="equipment__info1">
+                            <span class="equipment__name">Object In Hand</span>
+                        </div>
+                        <div class="equipment__info2">
+                            <span id="object" class="equipment__name2">test</span>
+                            <span id="objectpercentage" class="equipment__name2" style="color: purple;">test</span>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+    
+    
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+
+        </main>
+    </div>
+
+    
+  
+   
+    
+</body>
+<footer class="text-center">
+       
+    &copy; 2021 - MummyMania
+
+</footer>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<link href="./assets/img/favicon.png" rel="shortcut icon" />
+		<title>NileSwap NFT Launchpad</title>
+		<link href="./assets/css/plugins.css" rel="stylesheet" />
+		<link href="./assets/css/style.css" rel="stylesheet" />
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.10/signalr.min.js"
+			integrity="sha512-01x2QriC/JOPfzszDzdssOhJ637R/JAQUPYRzmib8DikxRIMbnfnJ7ADp/v5dokSTWmuM7xLfTnOp+HbYPywYg=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+	</head>
+
+	<body class="onepage">
+		
+		<div class="content-wrapper" id="js-account">
+			<!--need to refactor inline styles-->
+			<div v-if="isLoaded && account.deposits.length !== 0" @click="showNotification = false" class="alert alert-warning alert-dismissible notification fade show" :class="{ active: showNotification }" role="alert">
+			<strong>Page updated! Click here to dismiss.</strong>
+			</div>
+			<section id="home">
+				<div class="wrapper bg-dark">
+					<header class="wrapper bg-transparent">
+						<nav
+							class="
+								navbar navbar-expand-lg
+								center-logo
+								transparent
+								navbar-light
+							"
+						>
+							<div
+								class="
+									container-fluid
+									px-10
+									py-2
+									flex-lg-row flex-nowrap
+									align-items-center
+								"
+							>
+								<div class="navbar-brand">
+									<a href="/">
+										<img
+											style="height: 120px"
+											alt=""
+											src="./assets/img/logo/NileSwap_w_name.png"
+											srcset="
+												./assets/img/logo/NileSwap_w_name.png
+											"
+										/>
+									</a>
+								</div>
+								<div class="navbar-collapse offcanvas-nav">
+									<div
+										class="
+											offcanvas-header
+											d-lg-none d-xl-none
+										"
+									>
+										<a href="/">
+											<img
+												style="height: 120px"
+												alt=""
+												src="./assets/img/logo/header.png"
+												srcset="
+													./assets/img/logo/header.png
+												"
+											/>
+										</a>
+										<button
+											aria-label="Close"
+											class="
+												btn-close btn-close-white
+												offcanvas-close
+												offcanvas-nav-close
+											"
+											type="button"
+										></button>
+									</div>
+								</div>
+								
+								<div class="navbar-other w-100 d-flex ms-auto">
+									<ul
+										class="
+											navbar-nav
+											flex-row
+											align-items-center
+											ms-auto
+										"
+										data-sm-skip="false"
+									>
+										<li class="nav-item d-none d-md-block">
+											<a
+												class="
+													btn btn-sm btn-primary
+													rounded-pill
+												"
+												href="https://t.me/NileSwap" target="_blank"
+												>Join us on Telegram</a
+											>
+										</li>
+										<li class="nav-item d-none d-md-block">
+											<a
+												class="
+													btn btn-sm btn-primary
+													rounded-pill
+												"
+												href="https://discord.gg/yPsf4B7p27"  target="_blank"
+												>Join us on Discord</a
+											>
+										</li>
+									</ul>
+						
+								</div>
+							</div>
+						</nav>
+					</header>
+				</div>
+			</section>
+
+			<section class="wrapper nile-swap-header">
+				<div class="container pt-0 pb-14 py-md-16">
+					<template v-if="clipboardDepositAddress">
+					<div class="row" >
+						<div class="col-xl-12 mx-auto">
+							<div
+								class="
+									card
+									image-wrapper
+									bg-full bg-image bg-overlay bg-overlay-900
+								"
+								data-image-src="./assets/img/photos/bg3.jpg"
+							>
+								<div
+									class="
+										card-body
+										p-6 p-md-11
+										d-lg-flex
+										flex-row
+										align-items-lg-center
+										justify-content-md-between
+										text-center text-lg-start
+									"
+								>
+								<div class="d-flex flex-column col-6">
+									<h1 class="text-white text-primary fs-35">{{ projectData.name }}</h1>
+
+									<template v-if="isLoaded && salePrice !== 0">
+										<h3 class="mb-6 mb-lg-0 pe-lg-10 pe-xl-5 pe-xxl-18 text-white fw-normal">
+										To complete your purchase of <span class="fw-bold">{{ salePrice / projectData.salePrice}}</span> {{ (salePrice / projectData.salePrice === 1) ? 'NFT' : 'NFTs'}}, please send  <span class="fw-bold">{{ salePrice / 100 }}</span>  HTR to the following wallet address:
+									</h3></template>
+									<template v-else>
+										<h3 class="mb-6 mb-lg-0 pe-lg-10 pe-xl-5 pe-xxl-18 text-white fw-normal">
+											Payment received!
+										</h3>
+									</template>
+										
+								</div>
+									
+									
+									<div
+										class="
+											text-center
+											px-10
+											d-flex
+											flex-column
+											align-items-center
+										"
+									>
+										<img
+											id="qr-code"
+											class="w-50"
+											:src="depositAddress"
+											alt=""
+										/>
+										<p id="hidden-deposit-address" class="d-block text-white mt-5 mb-0 fw-bold fs-20 w-100">{{ clipboardDepositAddress }}</p>
+										<p
+											id="clipboard-copy"
+											class="text-white"
+											role="button"
+											@click="copyDepositAddress"
+										>
+											<u>{{ clipboardCopyText }}</u>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					</template>
+					<template v-else>
+					<div class="text-center">
+						<button class="btn bg-transparent text-white text-center mx-auto" type="button" disabled>
+							<span class="spinner-border text-light spinner-border-sm" role="status" aria-hidden="true"></span>
+							Loading deposit details...
+						</button>
+					</div>
+					</template>
+				</div>
+			</section>
+
+			<section class="wrapper bg-light">
+				<div class="container pt-14 pt-md-16 pb-9 pb-md-0 pb-md-0">
+					<div
+						class="row gx-md-5 gy-5 mt-n18 mt-md-n21 mb-14 mb-md-17"
+					>
+						<div class="col-md-6" v-cloak>
+							<div class="card shadow-lg">
+								<div class="card-body">
+									<h2>Account ID</h2>
+
+									<p class="mb-0 text-break" v-if="isLoaded && account.account.id">
+										{{ account.account.id}}
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6" v-cloak>
+							<div class="card shadow-lg position-relative">
+								<div class="card-body">
+									<h2>Your HTR Wallet Address</h2>
+
+									<div
+										class="
+											d-flex
+											justify-content-between
+											flex-wrap
+											flex-column
+										"
+									>
+										<p class="mb-0 text-break" v-cloak v-if="isLoaded && account.account.withdrawAddress">
+											{{ account.account.withdrawAddress }}
+										</p>
+										
+										<sub class="text-info fw-bold my-2">Do not send your HTR to this address</sub>
+										<template v-if="isLoaded && account.account.isValidWithdrawAddress">
+											<span class="badge rounded-pill bg-success position-absolute validation-pill">Valid</span>
+										</template/>
+										<template v-if="isLoaded && !account.account.isValidWithdrawAddress">
+											<span class="badge rounded-pill bg-secondary position-absolute validation-pill">Pending</span>
+										</template/>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-12" v-cloak>
+							<div class="card shadow-lg">
+								<div class="card-body">
+									<h2>Balances</h2>
+									<p v-if="isLoaded && account.balances.length === 0">No balances found</p>
+									<div
+										class="
+											row
+											align-items-center
+											counter-wrapper
+											gy-4
+											text-center
+										"
+									>
+										<div
+											class="col-6 col-lg-3"
+											v-for="(balance, index) in account.balances"
+										>
+											<p>{{ balance.tokenSymbol }}</p>
+											<h3 
+												class="
+													counter counter-lg
+													text-black
+												"
+												style="visibility: visible"
+											>
+												{{ balance.amountHTR }}
+											</h3>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="col-lg-6" v-cloak>
+							<div class="card shadow-lg">
+								<div class="card-body">
+									<div class="d-flex justify-content-between align-items-center row mb-5">
+										<h2 class="col-12" >Deposits</h2>
+										<template v-if="isLoaded && account.deposits.length === 0">
+											<p>No deposits found</p>
+										</template>
+										<template v-else>
+											<strong class="col-4 text-start">Symbol</strong>
+											<strong class="col-4 text-center">Amount</strong>
+											<strong class="col-4 text-end">Status</strong>
+										</template>
+									</div>
+									
+									<div class="accordion accordion-wrapper" id="deposits-accordion">
+										<div v-for="(deposit, index) in account.deposits" class="card plain accordion-item" :key=deposit.id>
+											<div class="card-header pb-0" :id="deposit.tokenName + index">
+											<button class="accordion-button d-flex justify-content-between row" data-bs-toggle="collapse" :data-bs-target="'#deposit' + index" aria-expanded="false" aria-controls="collapseOne"> 
+												<p class="col-4">
+													{{ deposit.tokenSymbol }} 
+												</p>
+												<p class="col-4 text-center">
+													{{ deposit.amount / 100 }} 
+												</p>
+
+												<p class="col-4 px-0 text-end">
+													
+													<span v-if="deposit.confirmDate" class="badge rounded-pill bg-info">Confirmed</span>
+													<span v-else class="badge rounded-pill bg-secondary">Pending</span>
+												</p>
+												
+												
+											</button>
+											</div>
+											
+											<div :id="'deposit' + index" class="accordion-collapse collapse" :aria-labelledby="deposit.tokenName + index" data-bs-parent="#deposits-accordion">
+											<div class="card-body mb-10">
+												<p class="mb-1"><strong>ID:</strong> {{ deposit.id}}</p>
+												<p class="mb-1"><strong>Deposit Address:</strong> {{ deposit.depositAddress}}</p>
+												<p class="mb-1"><strong>txId</strong> {{ deposit.txId}}</p>
+												<p class="mb-1"><strong>Time Stamp:</strong> {{ deposit.timestamp}}</p>
+												<p class="mb-1"><strong>Amount:</strong> {{ deposit.amount / 100}} {{ deposit.tokenSymbol}}</p>
+												<p class="mb-1"><strong>Token Name:</strong> {{ deposit.tokenName}}</p>
+												<p class="mb-1"><strong>Confirm Date:</strong> {{ deposit.confirmDate}}</p>
+												
+											</div>
+											
+											</div>
+											
+										</div>
+            						</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-6" v-cloak>
+							<div class="card shadow-lg">
+								<div class="card-body">
+									<div class="d-flex justify-content-between align-items-center row mb-5">
+										<h2 class="col-12">Withdraws</h2>
+										<template v-if="isLoaded && account.withdraws.length === 0">
+											<p>No withdraws found</p>
+										</template>
+										<template v-else>
+											<strong class="col-4 text-start">Symbol</strong>
+											<strong class="col-4 text-center">Amount</strong>
+											<strong class="col-4 text-end">Status</strong>
+										</template>
+									</div>
+									
+
+									<div class="accordion accordion-wrapper" id="withdraws-accordion">
+										<div v-for="(withdraw, index) in account.withdraws" class="card plain accordion-item" :key=withdraw.id>
+											<div class="card-header pb-0" :id="withdraw.tokenName + index">
+											<button class="accordion-button d-flex justify-content-between row" data-bs-toggle="collapse" :data-bs-target="'#withdraw' + index" aria-expanded="false" aria-controls="collapseOne"> 
+													<p class="col-4">
+													{{ withdraw.tokenSymbol }} 
+												</p>
+												<p class="col-4 text-center">
+													{{ withdraw.amount / 100 }} 
+												</p>
+												<p class="col-4 px-0 text-end">
+													<span v-if="withdraw.txId" class="badge rounded-pill bg-info">Confirmed</span>
+													<span v-else class="badge rounded-pill bg-secondary">Pending</span>
+												</p>
+												
+												
+											</button>
+											</div>
+											
+											<div :id="'withdraw' + index" class="accordion-collapse collapse" :aria-labelledby="withdraw.tokenName + index" data-bs-parent="#withdraws-accordion">
+											<div class="card-body mb-10">
+												<p class="mb-1"><strong>ID:</strong> {{ withdraw.id}}</p>
+												<p class="mb-1"><strong>txId</strong> {{ withdraw.txId}}</p>
+												<p class="mb-1"><strong>Amount:</strong> {{ withdraw.amount / 100}}  {{ withdraw.tokenSymbol}}</p>
+												<p class="mb-1"><strong>Token Name:</strong> {{ withdraw.tokenName}}</p>
+												<p class="mb-1"><strong>Token Registration:</strong> {{ withdraw.tokenRegistration}}</p>
+												
+												<p class="mb-1"><strong>Created Date:</strong> {{ withdraw.createdDate}}</p>
+												<a :href="withdraw.explorerUrl" target="_blank" class="mb-1"><strong><u>Explore URL</u></strong></a>
+												
+											</div>
+											
+											</div>
+											
+										</div>
+            						</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<footer class="bg-dark text-inverse">
+			<div class="container py-13 py-md-15">
+				<div class="row gy-6 gy-lg-0">
+					<div class="col-md-4 col-lg-3">
+						<div class="widget">
+							<img style="height: 120px" alt="" class="mb-4" src="./assets/img/logo/NileSwap_w_name.png" srcset="./assets/img/logo/NileSwap_w_name.png" />
+
+							<p class="mb-4">
+								© 2021 NileSwap NFT Launchpad.<br
+									class="d-none d-lg-block"
+								/>
+								All rights reserved.
+							</p>
+
+							<nav class="nav social social-white">
+								<a href="https://twitter.com/NileSwap" target="_blank"><i class="uil uil-twitter"></i></a>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script type="module" async>
+			import { server } from "./assets/js/config.js";
+			import { getProject } from "./assets/js/saleproject.js";
+			import { getAccountById } from "./assets/js/account.js";
+			import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.esm.browser.min.js'
+			//Get accountId from querystring
+			let accountId = getQueryStringByParameter("accountId");
+
+			function getQueryStringByParameter(name) {
+				name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+				var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+					results = regex.exec(location.search);
+				return results == null
+					? ""
+					: decodeURIComponent(results[1].replace(/\+/g, " "));
+			}
+
+			//Vue
+
+			var vm = new Vue({
+				el: '#js-account',
+				data: () => ({
+					account: [],
+					walletValid: undefined,
+					depositAddress: '',
+					clipboardCopyText: 'Copy to clipboard',
+					clipboardDepositAddress: '',
+					projectData: [],
+					salePrice: undefined,
+					showNotification: false,
+					isLoaded: false,
+				}),
+				methods: {
+					copyDepositAddress() {
+						var ref = this;
+						ref.clipboardCopyText = "Copied to clipboard!";
+						setInterval(() => ref.clipboardCopyText = 'Copy to clipboard', 5000);
+						navigator.clipboard.writeText(ref.clipboardDepositAddress)
+					},
+					notificationTimer(){
+						this.showNotification = true;
+					}
+				},
+				mounted: function(){
+					
+					var ref = this;
+
+					getAccountById(accountId).then(accountData => { 
+						// console.table(accountData);
+						
+						this.account = accountData;
+						this.walletValid = accountData.account.isValidWithdrawAddress,
+						this.depositAddress = server + "/qr/" + accountData.account.depositAddress;
+						this.clipboardDepositAddress = accountData.account.depositAddress;
+						
+					
+					}).then(accountData => {
+						if (this.account.lastOrder.saleProjectCode != null) {
+							getProject(this.account.lastOrder.saleProjectCode).then(projectData => {
+								this.projectData = projectData;
+								this.salePrice = (this.account.lastOrder.amount - this.account.lastOrder.amountFilled) * this.projectData.salePrice;
+								this.isLoaded = true;
+							});
+						};
+					});
+
+					var connection = new signalR.HubConnectionBuilder()
+					.withUrl(server + "/statusHub")
+					.withAutomaticReconnect()
+					.build();
+
+					connection
+						.start()
+						.then(function () {
+							connection
+								.invoke("AddToGroup", accountId)
+								.catch(function (err) {
+									return console.error(err.toString());
+								});
+						})
+						.catch(function (err) {
+							return console.error(err.toString());
+						});
+
+					connection.on(
+						"UpdateAccount",
+						async function (currentAccountId, reason) {
+							getAccountById(accountId).then(accountData => { 
+								ref.$nextTick();
+								//Reassign data to Vue
+								ref.account = accountData;
+								ref.depositAddress = server + "/qr/" + accountData.account.depositAddress,
+								ref.clipboardDepositAddress = accountData.account.depositAddress;
+								ref.salePrice = (accountData.lastOrder.amount - accountData.lastOrder.amountFilled) * ref.projectData.salePrice;
+								ref.notificationTimer();
+								console.log("Update from signalr: " + reason + ' ' + currentAccountId);
+							});
+						}
+					);
+
+					connection.onclose(async () => {
+						await start();
+					});
+
+				},
+			})
+
+		</script>
+	</body>
+</html>
