@@ -5631,7 +5631,7 @@ textarea.form-control.is-invalid {
   .navbar-expand-lg .offcanvas {
     position: inherit;
     bottom: 0;
-    z-index: 1000;
+    z-index: 99999;
     flex-grow: 1;
     visibility: visible !important;
     background-color: transparent;
