@@ -161,7 +161,7 @@ hr {
   margin-left: -1px;
   background: var(--darker-purple);
 
-  z-index: 5;
+ 
 }
 
 .timeline li {
@@ -568,6 +568,14 @@ a:not([href]):not([class]),
 a:not([href]):not([class]):hover {
   color: inherit;
   text-decoration: none;
+}
+
+
+.team-img {
+  border: 5px solid var(--orange);
+  border-radius: 65px;
+  width: 90%;
+  /* height: auto; */
 }
 
 pre,
