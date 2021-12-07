@@ -1,0 +1,22 @@
+{
+  "name": "mummymania",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tedsamaha/MummyMania.git"
+  },
+  "author": "Ted Samaha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tedsamaha/MummyMania/issues"
+  },
+  "homepage": "https://github.com/tedsamaha/MummyMania#readme",
+  "dependencies": {
+    "@hathor/wallet-lib": "^0.29.1"
+  }
+}
